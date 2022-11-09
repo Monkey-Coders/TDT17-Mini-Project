@@ -1,5 +1,5 @@
 run:
-	rm -f slurm_output.out && chmod u+x job.slurm && sbatch job.slurm
+	rm -f FORMAT_DATA.out && chmod u+x job.slurm && sbatch job.slurm
 
 queue:
 	squeue -u zuimran

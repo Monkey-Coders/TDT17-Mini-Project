@@ -8,7 +8,7 @@
 #SBATCH --cpus-per-task=24
 #SBATCH --mem=64G
 #SBATCH --job-name=RDD_YOLO
-#SBATCH --output=slurm_yolo_output.out
+#SBATCH --output=YOLO.out
 #SBATCH --mail-user=zuimran@stud.ntnu.no
 #SBATCH --mail-type=ALL
 

@@ -1,5 +1,5 @@
 run:
-	rm -f slurm_yolo_output.out && chmod u+x yolo.slurm && sbatch yolo.slurm
+	rm -f YOLO.out && chmod u+x yolo.slurm && sbatch yolo.slurm
 
 queue:
 	squeue -u zuimran

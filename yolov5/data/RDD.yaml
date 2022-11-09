@@ -1,4 +1,4 @@
-path: ../TDT17-Mini-Project/RDD_TO_YOLO
+path: ../TDT17-Mini-Project/RDD_TO_YOLO_NORWAY_ALL
 train: images
 val: images
 
