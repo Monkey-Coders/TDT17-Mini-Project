@@ -1,7 +1,7 @@
 #!/bin/sh
 #SBATCH --partition=GPUQ
 #SBATCH --account=ie-idi
-#SBATCH --time=05:00:00
+#SBATCH --time=24:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --gres=gpu:V100:2
@@ -35,9 +35,9 @@ python3 -m torch.distributed.launch \
                         ./yolov5/train.py \
                         --device 0,1 \
                         --batch 32 \
-                        --epochs 100 \
+                        --epochs 500 \
                         --workers 16 \
-                        --data ./yolov5/data/RDD.yaml \
+                        --data RDD.yaml \
                         --img 1000 \
                         --weights yolov5s.pt \
                         --project RDD_YOLO \
