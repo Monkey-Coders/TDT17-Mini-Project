@@ -37,8 +37,8 @@ class Albumentations:
                 A.RandomBrightnessContrast(p=0.0),
                 A.RandomGamma(p=0.0),
                 A.ImageCompression(quality_lower=75, p=0.0),
-                A.RandomRain(p=0.1),
-                A.RandomSnow(p=0.1),
+                # A.RandomRain(p=0.1),
+                # A.RandomSnow(p=0.1),
                 ]  # transforms
             self.transform = A.Compose(T, bbox_params=A.BboxParams(format='yolo', label_fields=['class_labels']))
 
