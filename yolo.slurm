@@ -4,7 +4,7 @@
 #SBATCH --time=24:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --gres=gpu:V100:2
+#SBATCH --gres=gpu:V100:1
 #SBATCH --cpus-per-task=24
 #SBATCH --mem=64G
 #SBATCH --job-name=RDD_YOLO
@@ -30,14 +30,12 @@ module load Python/3.8.6-GCCcore-10.2.0
 pip3 install -r yolov5/requirements.txt --user -q
 pip3 install wandb --use-feature=2020-resolver --user -q
 
-python3 -m torch.distributed.launch \
-                        --nproc_per_node=2 \
-                        ./yolov5/train.py \
-                        --device 0,1 \
+python3 ./yolov5/train.py \
                         --batch 32 \
                         --epochs 500 \
                         --workers 16 \
                         --data RDD.yaml \
+                        --image-weights \
                         --img 1000 \
                         --weights yolov5s.pt \
                         --project RDD_YOLO \

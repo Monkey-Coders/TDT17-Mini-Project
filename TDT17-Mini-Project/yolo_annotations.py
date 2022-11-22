@@ -8,7 +8,7 @@ import shutil
 from random import randrange, sample
 from PIL import Image
 from tqdm import tqdm
-
+import numpy as np
 # D00 = Longitudinal Crack
 # D10 = Transverse Crack
 # D20 = Alligator Crack
@@ -24,17 +24,23 @@ chosen_countries = ["Norway", "Japan"]
 
 dataset_path = "../../../../projects/vc/courses/TDT17/2022/open/RDD2022/"
 
-if not os.path.exists("RDD_TO_YOLO"):
-   os.makedirs("RDD_TO_YOLO")
-   os.makedirs("RDD_TO_YOLO/images")
-   os.makedirs("RDD_TO_YOLO/labels")
+folder_name = "RDD_TO_YOLO_ALL_ALMOST"
 
+if not os.path.exists(f"{folder_name}"):
+   os.makedirs(f"{folder_name}")
+   os.makedirs(f"{folder_name}/train/images")
+   os.makedirs(f"{folder_name}/train/labels")
+   os.makedirs(f"{folder_name}/val/images")
+   os.makedirs(f"{folder_name}/val/labels")
+   os.makedirs(f"{folder_name}/test/images")
+   os.makedirs(f"{folder_name}/test/labels")
 
+count = 0
 for country in tqdm(os.listdir(dataset_path), desc=f"Country: "):
   if country.endswith(".zip"):
     continue
   if country not in chosen_countries:
-    continue
+    pass
   print(f"Creating annotations for country {country}") 
   for image in tqdm(os.listdir(f"{dataset_path}/{country}/train/images"), desc=f"Image in {country}: "):
     image_name = image.split(".")[0]
@@ -68,10 +74,17 @@ for country in tqdm(os.listdir(dataset_path), desc=f"Country: "):
         class_id = class_to_idx[damage_type]
 
         print_buffer.append("{} {} {} {} {}".format(class_id, center_x/im_w, center_y/im_h, width/im_w, height/im_h))
-    if len(print_buffer) > 0:
-      annotation_file = open(f"RDD_TO_YOLO/labels/{image_name}.txt", "w")
+    if len(print_buffer) > 0 or False:
+      options = ["train", "val", "test"]
+      weights = [0.8, 0.1, 0.1]
+      
+      #randomly select element from list
+      data_type = np.random.choice(options, p=weights)
+      # data_type = "train" if count % 6 != 0 else "val"
+      annotation_file = open(f"{folder_name}/{data_type}/labels/{image_name}.txt", "w")
       annotation_file.write("\n".join(print_buffer))
       annotation_file.close()
       im.thumbnail((SIZE,SIZE), Image.LANCZOS)
-      im.save(f"RDD_TO_YOLO/images/{image_name}.jpg", "JPEG")
+      im.save(f"{folder_name}/{data_type}/images/{image_name}.jpg", "JPEG")
+      count += 1
 print("Done annotating file")

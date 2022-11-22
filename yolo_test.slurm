@@ -4,7 +4,7 @@
 #SBATCH --time=24:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --gres=gpu:V100:2
+#SBATCH --gres=gpu:V100:1
 #SBATCH --cpus-per-task=24
 #SBATCH --mem=64G
 #SBATCH --job-name=RDD_YOLO
@@ -30,15 +30,12 @@ module load Python/3.8.6-GCCcore-10.2.0
 pip3 install -r yolov5/requirements.txt --user -q
 pip3 install wandb --use-feature=2020-resolver --user -q
 
-torchrun \
-                        --nproc_per_node=2 \
-                        ./yolov5/detect.py \
-                        --device 0,1 \
+python ./yolov5/detect.py \
                         --source ../../../projects/vc/courses/TDT17/2022/open/RDD2022/Norway/test/images \
                         --data RDD.yaml \
                         --weights ./best.pt \
                         --img 4000 \
                         --project RDD_YOLO_TEST \
-                        --name RDD_x 
+                        --name DEL_x 
 
 uname -a

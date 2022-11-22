@@ -1,7 +1,8 @@
-path: ../TDT17-Mini-Project/RDD_TO_YOLO_NORWAY_JAPAN
-train: images
-val: images
-test: ../../../../../projects/vc/courses/TDT17/2022/open/RDD2022/Norway/test
+path: ../TDT17-Mini-Project/RDD_TO_YOLO_ALL_ALMOST
+train: train/images
+val: val/images
+test: test/images
+# test: ../../../../../projects/vc/courses/TDT17/2022/open/RDD2022/Norway/test
 
 
 nc: 4
