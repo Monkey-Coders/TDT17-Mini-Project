@@ -48,9 +48,9 @@ from utils.torch_utils import select_device, smart_inference_mode
 
 CLASS_TO_ID = {
     "D00": 1,
-    "D10": 3,
-    "D20": 5,
-    "D40": 6,
+    "D10": 2,
+    "D20": 3,
+    "D40": 4,
 }
 
 
@@ -102,6 +102,8 @@ def run(
     model = DetectMultiBackend(weights, device=device, dnn=dnn, data=data, fp16=half)
     stride, names, pt = model.stride, model.names, model.pt
     imgsz = check_img_size(imgsz, s=stride)  # check image size
+    
+    max = ""
 
     # Dataloader
     bs = 1  # batch_size
@@ -174,15 +176,15 @@ def run(
 
                     if save_img or save_crop or view_img:  # Add bbox to image
                         c = int(cls)  # integer class
-                        label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
+                        # label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
                         c_name  = names[c]
-                        zaim += f" {CLASS_TO_ID[c_name]} {int(xyxy[0])} {int(xyxy[1])} {int(xyxy[2])} {int(xyxy[3])}"
-                        annotator.box_label(xyxy, label, color=colors(c, True))
+                        zaim += f"{CLASS_TO_ID[c_name]} {int(xyxy[0])} {int(xyxy[1])} {int(xyxy[2])} {int(xyxy[3])} "
+                        # annotator.box_label(xyxy, label, color=colors(c, True))
                     if save_crop:
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
 
             # Stream results
-            im0 = annotator.result()
+            # im0 = annotator.result()
             if view_img:
                 if platform.system() == 'Linux' and p not in windows:
                     windows.append(p)
@@ -194,9 +196,9 @@ def run(
             # Save results (image with detections)
             if save_img:
                 if dataset.mode == 'image':
-                    print(save_path)
-                    print(zaim)
-                    cv2.imwrite(save_path+zaim, im0)
+                    with open(f'{save_dir}/output.txt', 'a') as f:
+                        f.write(f'{p.name+","+zaim}\n')
+                    # cv2.imwrite(save_path+zaim, im0)
                 else:  # 'video' or 'stream'
                     if vid_path[i] != save_path:  # new video
                         vid_path[i] = save_path
@@ -214,7 +216,6 @@ def run(
 
         # Print time (inference-only)
         LOGGER.info(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")
-
     # Print results
     t = tuple(x.t / seen * 1E3 for x in dt)  # speeds per image
     LOGGER.info(f'Speed: %.1fms pre-process, %.1fms inference, %.1fms NMS per image at shape {(1, 3, *imgsz)}' % t)

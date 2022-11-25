@@ -1,2 +1,2 @@
 *.out
-RDD_YOLO_TEST/
+./*.pt

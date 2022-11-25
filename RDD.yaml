@@ -1,4 +1,4 @@
-path: ../TDT17-Mini-Project/RDD_TO_YOLO_ALL_ALMOST
+path: ../TDT17-Mini-Project/YOLO_1280
 train: train/images
 val: val/images
 test: test/images

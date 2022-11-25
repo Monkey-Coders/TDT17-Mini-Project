@@ -20,11 +20,14 @@ classes = ["D00", "D10", "D20", "D40"]
 idx_to_class = {i:j for i, j in enumerate(classes)}
 class_to_idx = {value:key for key,value in idx_to_class.items()}
 
-chosen_countries = ["Norway", "Japan"]
+chosen_countries = ["Norway", "Japan", "United_States"]
 
 dataset_path = "../../../../projects/vc/courses/TDT17/2022/open/RDD2022/"
 
-folder_name = "RDD_TO_YOLO_ALL_ALMOST"
+folder_name = "YOLO_1280"
+
+not_labels = 0
+labels = 0
 
 if not os.path.exists(f"{folder_name}"):
    os.makedirs(f"{folder_name}")
@@ -32,15 +35,13 @@ if not os.path.exists(f"{folder_name}"):
    os.makedirs(f"{folder_name}/train/labels")
    os.makedirs(f"{folder_name}/val/images")
    os.makedirs(f"{folder_name}/val/labels")
-   os.makedirs(f"{folder_name}/test/images")
-   os.makedirs(f"{folder_name}/test/labels")
 
 count = 0
 for country in tqdm(os.listdir(dataset_path), desc=f"Country: "):
   if country.endswith(".zip"):
     continue
   if country not in chosen_countries:
-    pass
+    continue
   print(f"Creating annotations for country {country}") 
   for image in tqdm(os.listdir(f"{dataset_path}/{country}/train/images"), desc=f"Image in {country}: "):
     image_name = image.split(".")[0]
@@ -74,9 +75,13 @@ for country in tqdm(os.listdir(dataset_path), desc=f"Country: "):
         class_id = class_to_idx[damage_type]
 
         print_buffer.append("{} {} {} {} {}".format(class_id, center_x/im_w, center_y/im_h, width/im_w, height/im_h))
-    if len(print_buffer) > 0 or False:
-      options = ["train", "val", "test"]
-      weights = [0.8, 0.1, 0.1]
+    if len(print_buffer) > 0:
+      labels += 1
+    else: 
+      not_labels += 1
+    if len(print_buffer) > 0 or not_labels < 200:
+      options = ["train", "val"]
+      weights = [0.8, 0.2]
       
       #randomly select element from list
       data_type = np.random.choice(options, p=weights)
@@ -84,7 +89,7 @@ for country in tqdm(os.listdir(dataset_path), desc=f"Country: "):
       annotation_file = open(f"{folder_name}/{data_type}/labels/{image_name}.txt", "w")
       annotation_file.write("\n".join(print_buffer))
       annotation_file.close()
-      im.thumbnail((SIZE,SIZE), Image.LANCZOS)
+      # im.thumbnail((SIZE,SIZE), Image.LANCZOS)
       im.save(f"{folder_name}/{data_type}/images/{image_name}.jpg", "JPEG")
       count += 1
 print("Done annotating file")

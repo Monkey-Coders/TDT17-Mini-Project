@@ -4,7 +4,7 @@
 #SBATCH --time=24:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --gres=gpu:V100:1
+#SBATCH --gres=gpu:P100:1
 #SBATCH --cpus-per-task=24
 #SBATCH --mem=64G
 #SBATCH --job-name=RDD_YOLO
@@ -33,9 +33,12 @@ pip3 install wandb --use-feature=2020-resolver --user -q
 python ./yolov5/detect.py \
                         --source ../../../projects/vc/courses/TDT17/2022/open/RDD2022/Norway/test/images \
                         --data RDD.yaml \
-                        --weights ./best.pt \
-                        --img 4000 \
+                        --weights ./RDD_YOLO/RDD_x7/weights/best.pt \
+                        --img 640 \
                         --project RDD_YOLO_TEST \
-                        --name DEL_x 
+                        --name TEST_x
 
 uname -a
+
+# q: how to unstage 5 commits?
+git reset --soft HEAD~5
