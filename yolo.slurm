@@ -34,7 +34,7 @@ python3 -m torch.distributed.launch \
                         ./yolov5/train.py \
                         --device 0,1 \
                         --batch 64 \
-                        --epochs 1 \
+                        --epochs 300 \
                         --workers 16 \
                         --data RDD.yaml \
                         --img 640 \
