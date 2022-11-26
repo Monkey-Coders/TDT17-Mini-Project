@@ -176,15 +176,15 @@ def run(
 
                     if save_img or save_crop or view_img:  # Add bbox to image
                         c = int(cls)  # integer class
-                        # label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
+                        label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
                         c_name  = names[c]
                         zaim += f"{CLASS_TO_ID[c_name]} {int(xyxy[0])} {int(xyxy[1])} {int(xyxy[2])} {int(xyxy[3])} "
-                        # annotator.box_label(xyxy, label, color=colors(c, True))
+                        annotator.box_label(xyxy, label, color=colors(c, True))
                     if save_crop:
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
 
             # Stream results
-            # im0 = annotator.result()
+            im0 = annotator.result()
             if view_img:
                 if platform.system() == 'Linux' and p not in windows:
                     windows.append(p)
@@ -198,7 +198,7 @@ def run(
                 if dataset.mode == 'image':
                     with open(f'{save_dir}/output.txt', 'a') as f:
                         f.write(f'{p.name+","+zaim}\n')
-                    # cv2.imwrite(save_path+zaim, im0)
+                    cv2.imwrite(save_path, im0)
                 else:  # 'video' or 'stream'
                     if vid_path[i] != save_path:  # new video
                         vid_path[i] = save_path

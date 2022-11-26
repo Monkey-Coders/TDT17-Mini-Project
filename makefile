@@ -1,8 +1,11 @@
 run:
 	chmod u+x yolo.slurm && sbatch yolo.slurm
 
+pre:
+	chmod u+x yolo_pre.slurm && sbatch yolo_pre.slurm
+
 test:
-	chmod u+x yolo_test.slurm && sbatch yolo_test.slurm
+	chmod u+x yolo_detect.slurm && sbatch yolo_detect.slurm
 
 queue:
 	squeue -u zuimran

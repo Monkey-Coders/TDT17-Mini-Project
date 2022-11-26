@@ -1,8 +1,7 @@
-path: ../TDT17-Mini-Project/YOLO_1280
+path: ../RDD_YOLO_PREPROCESSING
 train: train/images
 val: val/images
-test: test/images
-# test: ../../../../../projects/vc/courses/TDT17/2022/open/RDD2022/Norway/test
+test: ../../../../../projects/vc/courses/TDT17/2022/open/RDD2022/Norway/test
 
 
 nc: 4

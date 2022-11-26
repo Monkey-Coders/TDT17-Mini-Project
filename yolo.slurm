@@ -34,11 +34,11 @@ python3 -m torch.distributed.launch \
                         ./yolov5/train.py \
                         --device 0,1 \
                         --batch 64 \
-                        --epochs 300 \
+                        --epochs 1 \
                         --workers 16 \
                         --data RDD.yaml \
                         --img 640 \
-                        --weights yolov5s.pt \
+                        --weights ./RDD_YOLO/RDD_BEST/weights/last.pt \
                         --project RDD_YOLO \
                         --name RDD_x \
                         --cache ram \
