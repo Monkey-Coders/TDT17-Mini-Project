@@ -4,7 +4,7 @@ run:
 pre:
 	chmod u+x yolo_pre.slurm && sbatch yolo_pre.slurm
 
-test:
+detect:
 	chmod u+x yolo_detect.slurm && sbatch yolo_detect.slurm
 
 queue:
