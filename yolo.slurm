@@ -38,7 +38,7 @@ python3 -m torch.distributed.launch \
                         --workers 16 \
                         --data RDD.yaml \
                         --img 640 \
-                        --weights ./RDD_YOLO/RDD_BEST/weights/last.pt \
+                        --weights yolov5m.pt \
                         --project RDD_YOLO \
                         --name RDD_x \
                         --cache ram \
